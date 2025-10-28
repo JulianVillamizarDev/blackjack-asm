@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Blackjack 16-bit",
+            "type": "shell",
+            "command": "masm main.asm; masm ui.asm; tlink main.obj ui.obj;",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Compila y enlaza el proyecto Blackjack en ensamblador"
+        },
+        {
+            "label": "Run Blackjack in DOSBox",
+            "type": "shell",
+            "command": "dosbox main.exe -exit",
+            "group": "none"
+        }
+    ]
+}

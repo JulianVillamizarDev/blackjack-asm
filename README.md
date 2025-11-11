@@ -19,7 +19,7 @@ Blackjack
 
 - **DOSBox**
 - **MASM611**
-- **VS code (O otro editor de código :P)**
+- **VS code (U otro editor de código :P)**
 
 
 ## Ejecución

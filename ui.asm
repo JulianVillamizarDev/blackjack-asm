@@ -1,24 +1,19 @@
-; ============================================================
-; Proyecto: Blackjack - Ensamblador 16 bits
-; Archivo : ui.asm
-; Descripción : Manejo de interfaz de usuario en modo texto.
-;               Pantalla inicial con opciones "Jugar" y "Salir".
-; ============================================================
-
 .MODEL SMALL
 .STACK 100h
 
-PUBLIC SHOWMAINMENU
+EXTRN StartGame:PROC ; game_logic.asm
+
+PUBLIC ShowMainMenu
 
 .CODE
-SHOWMAINMENU PROC
-    ; Mostrar título
+ShowMainMenu PROC
+    ; Mostrar titulo del juego
     MOV AH, 09h
-    LEA DX, title
+    LEA DX, gameTitle
     INT 21h
 
 MenuLoop:
-    ; Mostrar opciones
+    ; Mostrar menu de opciones
     MOV AH, 09h
     LEA DX, menuOption1
     INT 21h
@@ -36,47 +31,38 @@ MenuLoop:
     INT 21h
     MOV BL, AL
 
-    ; Salto de línea
+    ; Salto de linea
     MOV AH, 09h
     LEA DX, newline
     INT 21h
 
-    ; Evaluar opción
+    ; Evaluar opcion
     CMP BL, '1'
-    JE StartGame
+    JE StartGameCall
     CMP BL, '2'
     JE ExitGame
 
-    ; Opción inválida
+    ; Caso de opcion invalida
     MOV AH, 09h
     LEA DX, invalidMsg
     INT 21h
     JMP MenuLoop
 
-StartGame:
-    ; Placeholder mientras se conecta la lógica del juego
-    MOV AH, 09h
-    LEA DX, newline
-    INT 21h
-    MOV AH, 09h
-    LEA DX, msgStart
-    INT 21h
-    JMP ExitGame
+; call al procedimiento para iniciar el juego
+    CALL StartGame   
 
+; salir del menu
 ExitGame:
     RET
+
 ShowMainMenu ENDP
 
-; ------------------------------------------------------------
-; Variables (declaradas al final del archivo)
-; ------------------------------------------------------------
 .DATA
-    title       DB 13,10, '==== BLACKJACK 16-BIT ====',13,10,'$'
+    gameTitle   DB 13,10, '==== BLACKJACK 16-BIT ====',13,10,'$'
     menuOption1 DB '1. Jugar',13,10,'$'
     menuOption2 DB '2. Salir',13,10,'$'
-    chooseMsg   DB 13,10,'Seleccione una opción: $'
-    invalidMsg  DB 13,10,'Opción inválida. Intente nuevamente.$'
-    msgStart    DB 'Iniciando partida... (pendiente de implementar)',13,10,'$'
+    chooseMsg   DB 13,10,'Seleccione una opcion: $'
+    invalidMsg  DB 13,10,'Opcion invalida. Intente nuevamente.$'
     newline     DB 13,10,'$'
 
 END

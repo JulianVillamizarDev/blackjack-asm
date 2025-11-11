@@ -1,41 +1,29 @@
-; ============================================================
-; Proyecto: Blackjack - Ensamblador 16 bits
-; Archivo : main.asm
-; Descripción : Programa principal. Inicializa segmentos y
-;               muestra la pantalla de inicio (UI principal)
-; ============================================================
-
 .MODEL SMALL
 .STACK 100h
 
-; ------------------------------------------------------------
-; Declaración de procedimientos externos
-; ------------------------------------------------------------
-EXTERN ShowMainMenu:NEAR
+EXTRN SHOWMAINMENU:PROC ; ui.asm
+
+.DATA
+    exitMsg DB 13,10, 'Gracias por jugar Blackjack 16-bit!',13,10,'$'
 
 .CODE
-MAIN PROC
-    ; Inicializar segmento de datos
+
+main PROC
+    ; inicializar segmento de datos
     MOV AX, @DATA
     MOV DS, AX
 
-    ; Llamar a la interfaz inicial  
-    CALL ShowMainMenu
+    ; call al menu principal
+    CALL SHOWMAINMENU
 
-    ; Mostrar mensaje de salida
+    ; mensaje de salida
     MOV AH, 09h
-    LEA DX, msg_exit
+    LEA DX, exitMsg
     INT 21h
 
-    ; Finalizar programa
+    ; salir del programa
     MOV AH, 4Ch
     INT 21h
-MAIN ENDP
+main ENDP
 
-; ------------------------------------------------------------
-; Variables y mensajes (declaradas al final)
-; ------------------------------------------------------------
-.DATA
-    msg_exit DB 13,10, 'Saliendo del juego...', '$'
-
-END MAIN
+END main

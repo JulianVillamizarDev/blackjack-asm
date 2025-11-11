@@ -1,6 +1,8 @@
 # Blackjack
 
 ---
+Clona el repositorio dentro de C:/MASM/MASM611/BIN
+---
 
 ## Estructura del proyecto
 
